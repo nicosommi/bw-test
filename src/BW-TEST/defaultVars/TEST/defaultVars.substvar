@@ -1,0 +1,45 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<repository xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns = "http://www.tibco.com/xmlns/repo/types/2002">
+	<globalVariables>
+		<globalVariable>
+			<name>allowOrigin</name>
+			<value>*</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1376489381289</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>host</name>
+			<value>localhost</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1385575516207</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>onStartup</name>
+			<value>true</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1385039745289</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>port</name>
+			<value>5554</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1385061544060</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>testPath</name>
+			<value>/TEST/Resources/Data/tests.xml</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1384867147817</modTime>
+		</globalVariable>
+	</globalVariables>
+</repository>

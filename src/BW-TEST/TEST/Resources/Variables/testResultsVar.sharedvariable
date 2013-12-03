@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BWSharedResource xmlns:pfx2="http://www.nicosommi.com/labs/test/xunit" xmlns:pfx="http://www.nicosommi.com/labs/test/TESTTypes">
+    <import namespace="http://www.nicosommi.com/labs/test/TESTTypes" schemaLocation="/TEST/Resources/Schemas/TESTTypes.xsd"/>
+    <import namespace="http://www.nicosommi.com/labs/test/xunit" schemaLocation="/TEST/Resources/Schemas/xunit.xsd"/>
+    <name>testResultsVar</name>
+    <resourceType>ae.shared.sharedVariable</resourceType>
+    <config xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <persistent>false</persistent>
+        <multi-engine>false</multi-engine>
+        <initialValue>none</initialValue>
+        <xsdString ref="pfx2:testsuites"/>
+    </config>
+</BWSharedResource>

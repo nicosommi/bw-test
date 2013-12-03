@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://www.tibco.com/schemas/rapid/UserManagement/Schema.xsd">
+    <xsd:import namespace="http://www.tibco.com/schemas/rapid/UserManagement/Schema.xsd" schemaLocation="/UserManagement/UserSchemas.xsd"/>
+    <pd:name>UserManagement/AddUser.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:User"/>
+    <pd:startX>57</pd:startX>
+    <pd:startY>135</pd:startY>
+    <pd:returnBindings>
+        <xsl:copy-of select="$User/pfx:User"/>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:User"/>
+    <pd:endX>1007</pd:endX>
+    <pd:endY>129</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables>
+        <User ref="pfx:User"/>
+    </pd:processVariables>
+    <pd:targetNamespace>http://xmlns.example.com/1378590537587</pd:targetNamespace>
+    <pd:activity name="AddUser on AD">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>452</pd:x>
+        <pd:y>45</pd:y>
+        <config>
+            <processName>/UserManagement/ExternalInterfaces/AD/AddUser.process</processName>
+        </config>
+        <pd:inputBindings>
+            <xsl:copy-of select="$User/pfx:User"/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="AddUser on SAP">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>457</pd:x>
+        <pd:y>127</pd:y>
+        <config>
+            <processName>/UserManagement/ExternalInterfaces/SAP/AddUser.process</processName>
+        </config>
+        <pd:inputBindings>
+            <xsl:copy-of select="$User/pfx:User"/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="AddUser on another legacy system">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>453</pd:x>
+        <pd:y>219</pd:y>
+        <config>
+            <processName>/UserManagement/ExternalInterfaces/LegacySystem/AddUser.process</processName>
+        </config>
+        <pd:inputBindings>
+            <xsl:copy-of select="$User/pfx:User"/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Null">
+        <pd:type>com.tibco.plugin.timer.NullActivity</pd:type>
+        <pd:resourceType>ae.activities.null</pd:resourceType>
+        <pd:x>590</pd:x>
+        <pd:y>136</pd:y>
+        <config/>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="GetUsers">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>695</pd:x>
+        <pd:y>134</pd:y>
+        <config>
+            <processName>/UserManagement/GetUsers.process</processName>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="SetUsers">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>860</pd:x>
+        <pd:y>128</pd:y>
+        <config>
+            <processName>/UserManagement/SetUsers.process</processName>
+        </config>
+        <pd:inputBindings>
+            <pfx:Users>
+                <xsl:for-each select="$GetUsers/pfx:Users/pfx:User">
+                    <xsl:if test="pfx:id !=$User/pfx:User/pfx:id">
+                        <pfx:User>
+                            <pfx:id>
+                                <xsl:value-of select="pfx:id"/>
+                            </pfx:id>
+                            <pfx:firstName>
+                                <xsl:value-of select="pfx:firstName"/>
+                            </pfx:firstName>
+                            <pfx:lastName>
+                                <xsl:value-of select="pfx:lastName"/>
+                            </pfx:lastName>
+                        </pfx:User>
+                    </xsl:if>
+                </xsl:for-each>
+                <xsl:copy-of select="$User/pfx:User"/>
+            </pfx:Users>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Null-1">
+        <pd:type>com.tibco.plugin.timer.NullActivity</pd:type>
+        <pd:resourceType>ae.activities.null</pd:resourceType>
+        <pd:x>320</pd:x>
+        <pd:y>131</pd:y>
+        <config/>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="generateUUID">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>147</pd:x>
+        <pd:y>131</pd:y>
+        <config>
+            <processName>/TEST/Misc/generateUUID.process</processName>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="Assign">
+        <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+        <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+        <pd:x>234</pd:x>
+        <pd:y>132</pd:y>
+        <config>
+            <variableName>User</variableName>
+        </config>
+        <pd:inputBindings>
+            <pfx:User>
+                <xsl:choose>
+                    <xsl:when test="string-length($Start/pfx:User/pfx:id)>0">
+                        <pfx:id>
+                            <xsl:value-of select="$Start/pfx:User/pfx:id"/>
+                        </pfx:id>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <pfx:id>
+                            <xsl:value-of select="$generateUUID/root/UUID"/>
+                        </pfx:id>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <pfx:firstName>
+                    <xsl:value-of select="$Start/pfx:User/pfx:firstName"/>
+                </pfx:firstName>
+                <pfx:lastName>
+                    <xsl:value-of select="$Start/pfx:User/pfx:lastName"/>
+                </pfx:lastName>
+            </pfx:User>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>AddUser on another legacy system</pd:from>
+        <pd:to>Null</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>AddUser on SAP</pd:from>
+        <pd:to>Null</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>AddUser on AD</pd:from>
+        <pd:to>Null</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Null</pd:from>
+        <pd:to>GetUsers</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetUsers</pd:from>
+        <pd:to>SetUsers</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SetUsers</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Null-1</pd:from>
+        <pd:to>AddUser on AD</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Null-1</pd:from>
+        <pd:to>AddUser on SAP</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Null-1</pd:from>
+        <pd:to>AddUser on another legacy system</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>generateUUID</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>generateUUID</pd:from>
+        <pd:to>Assign</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Assign</pd:from>
+        <pd:to>Null-1</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/schemas/rapid/UserManagement/Schema.xsd" xmlns:pfx="http://www.nicosommi.com/labs/test/TESTTypes">
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.nicosommi.com/labs/test/TESTTypes" schemaLocation="/TEST/Resources/Schemas/TESTTypes.xsd"/>
+    <pd:name>TestResources/setUserTest.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:TestProcessInput"/>
+    <pd:startX>35</pd:startX>
+    <pd:startY>122</pd:startY>
+    <pd:returnBindings>
+        <pfx:TestProcessOutput>
+            <pfx:testcase>
+                <xsl:copy-of select="$Assertions/pfx:TestProcessOutput/pfx:testcase/*"/>
+            </pfx:testcase>
+        </pfx:TestProcessOutput>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:TestProcessOutput"/>
+    <pd:endX>647</pd:endX>
+    <pd:endY>115</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1385562207047</pd:targetNamespace>
+    <pd:activity name="SetUsers">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>295</pd:x>
+        <pd:y>114</pd:y>
+        <config>
+            <processName>/UserManagement/SetUsers.process</processName>
+        </config>
+        <pd:inputBindings>
+            <ns:Users>
+                <ns:User>
+                    <ns:id>
+                        <xsl:value-of select="$generateUUID/root/UUID"/>
+                    </ns:id>
+                    <ns:firstName>
+                        <xsl:value-of select="'john'"/>
+                    </ns:firstName>
+                    <ns:lastName>
+                        <xsl:value-of select="'one'"/>
+                    </ns:lastName>
+                </ns:User>
+                <ns:User>
+                    <ns:id>
+                        <xsl:value-of select="$generateUUID-1/root/UUID"/>
+                    </ns:id>
+                    <ns:firstName>
+                        <xsl:value-of select="'john'"/>
+                    </ns:firstName>
+                    <ns:lastName>
+                        <xsl:value-of select="'two'"/>
+                    </ns:lastName>
+                </ns:User>
+                <xsl:copy-of select="$GetUsers/ns:Users/ns:User"/>
+            </ns:Users>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="generateUUID">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>173</pd:x>
+        <pd:y>52</pd:y>
+        <config>
+            <processName>/TEST/Misc/generateUUID.process</processName>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="generateUUID-1">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>159</pd:x>
+        <pd:y>191</pd:y>
+        <config>
+            <processName>/TEST/Misc/generateUUID.process</processName>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="Assertions">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>515</pd:x>
+        <pd:y>117</pd:y>
+        <config>
+            <processName>/TEST/Assertions/Assertions.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <assertEquals>
+                    <realValue>
+                        <xsl:value-of select="count($GetUsers/ns:Users/ns:User)+2"/>
+                    </realValue>
+                    <expectedValue>
+                        <xsl:value-of select="count($GetUsers-1/ns:Users/ns:User)"/>
+                    </expectedValue>
+                </assertEquals>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="GetUsers">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>159</pd:x>
+        <pd:y>120</pd:y>
+        <config>
+            <processName>/UserManagement/GetUsers.process</processName>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="GetUsers-1">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>396</pd:x>
+        <pd:y>116</pd:y>
+        <config>
+            <processName>/UserManagement/GetUsers.process</processName>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>SetUsers</pd:from>
+        <pd:to>GetUsers-1</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>generateUUID</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>generateUUID</pd:from>
+        <pd:to>SetUsers</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>generateUUID-1</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>generateUUID-1</pd:from>
+        <pd:to>SetUsers</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Assertions</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>GetUsers</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetUsers</pd:from>
+        <pd:to>SetUsers</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetUsers-1</pd:from>
+        <pd:to>Assertions</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

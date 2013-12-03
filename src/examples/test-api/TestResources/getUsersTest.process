@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/schemas/rapid/UserManagement/Schema.xsd" xmlns:pfx="http://www.nicosommi.com/labs/test/TESTTypes">
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.nicosommi.com/labs/test/TESTTypes" schemaLocation="/TEST/Resources/Schemas/TESTTypes.xsd"/>
+    <pd:name>TestResources/getUsersTest.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:TestProcessInput"/>
+    <pd:startX>155</pd:startX>
+    <pd:startY>71</pd:startY>
+    <pd:returnBindings>
+        <pfx:TestProcessOutput>
+            <pfx:testcase>
+                <xsl:copy-of select="$Assertions/pfx:TestProcessOutput/pfx:testcase/*"/>
+            </pfx:testcase>
+        </pfx:TestProcessOutput>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:TestProcessOutput"/>
+    <pd:endX>470</pd:endX>
+    <pd:endY>62</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1385562207047</pd:targetNamespace>
+    <pd:activity name="GetUsers">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>267</pd:x>
+        <pd:y>69</pd:y>
+        <config>
+            <processName>/UserManagement/GetUsers.process</processName>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="Assertions">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>376</pd:x>
+        <pd:y>67</pd:y>
+        <config>
+            <processName>/TEST/Assertions/Assertions.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <assertGreaterThan>
+                    <realValue>
+                        <xsl:value-of select="count($GetUsers/ns:Users/ns:User)"/>
+                    </realValue>
+                    <expectedValue>
+                        <xsl:value-of select="0"/>
+                    </expectedValue>
+                </assertGreaterThan>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>GetUsers</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetUsers</pd:from>
+        <pd:to>Assertions</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Assertions</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

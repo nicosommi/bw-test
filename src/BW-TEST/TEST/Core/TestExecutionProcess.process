@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.nicosommi.com/labs/test/xunit" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx2="http://www.nicosommi.com/labs/test/TESTTypes" xmlns:pfx="http://www.tibco.com/ns/no_namespace_schema_location/TEST/Resources/Schemas/xunit.xsd">
+    <xsd:import namespace="http://www.tibco.com/ns/no_namespace_schema_location/TEST/Resources/Schemas/xunit.xsd" schemaLocation="/TEST/Resources/Schemas/xunit.xsd"/>
+    <xsd:import namespace="http://www.nicosommi.com/labs/test/TESTTypes" schemaLocation="/TEST/Resources/Schemas/TESTTypes.xsd"/>
+    <pd:name>TEST/Core/TestExecutionProcess.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="TestExecutionProcess">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="url" type="xsd:string"/>
+                    <xsd:element name="postData" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>47</pd:startX>
+    <pd:startY>110</pd:startY>
+    <pd:returnBindings>
+        <pfx2:TestProcessOutput/>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx2:TestProcessOutput"/>
+    <pd:endX>612</pd:endX>
+    <pd:endY>115</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1385039047701</pd:targetNamespace>
+    <pd:activity name="GetTests">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>149</pd:x>
+        <pd:y>115</pd:y>
+        <config>
+            <processName>/TEST/Core/GetTests.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:group name="Group">
+        <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
+        <pd:resourceType>ae.process.group</pd:resourceType>
+        <pd:x>235</pd:x>
+        <pd:y>33</pd:y>
+        <pd:width>177</pd:width>
+        <pd:height>138</pd:height>
+        <pd:collapsedWidth>57</pd:collapsedWidth>
+        <pd:collapsedHeight>70</pd:collapsedHeight>
+        <pd:groupVariables/>
+        <pd:joinToggle>inherit</pd:joinToggle>
+        <config>
+            <pd:groupType>inputLoop</pd:groupType>
+            <pd:serializable>false</pd:serializable>
+            <pd:over>$GetTests/pfx2:testsuites/pfx2:testsuite</pd:over>
+            <pd:iterationElementSlot>currentTestsuite</pd:iterationElementSlot>
+            <pd:indexSlot>indexTest</pd:indexSlot>
+            <pd:outSlot>tests</pd:outSlot>
+            <pd:activityOutputName>TESTProcessor</pd:activityOutputName>
+            <pd:accumulateOutput>true</pd:accumulateOutput>
+        </config>
+        <pd:inputBindings/>
+        <pd:expanded>true</pd:expanded>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>TESTProcessor</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>TESTProcessor</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:activity name="TESTProcessor">
+            <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+            <pd:resourceType>ae.process.subprocess</pd:resourceType>
+            <pd:x>310</pd:x>
+            <pd:y>96</pd:y>
+            <config>
+                <processName>/TEST/Core/TestSuiteProcessor.process</processName>
+            </config>
+            <pd:inputBindings>
+                <root>
+                    <url>
+                        <xsl:value-of select="$Start/TestExecutionProcess/url"/>
+                    </url>
+                    <postData>
+                        <xsl:value-of select="$Start/TestExecutionProcess/postData"/>
+                    </postData>
+                    <xsl:copy-of select="$currentTestsuite/pfx2:testsuite"/>
+                </root>
+            </pd:inputBindings>
+        </pd:activity>
+    </pd:group>
+    <pd:activity name="TestResultsSave">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>491</pd:x>
+        <pd:y>112</pd:y>
+        <config>
+            <processName>/TEST/Core/TestResultsSave.process</processName>
+        </config>
+        <pd:inputBindings>
+            <ns:testsuites>
+                <xsl:for-each select="$tests/AccumulatedOutput/ns:testsuite">
+                    <ns:testsuite>
+                        <xsl:attribute name="name">
+                            <xsl:value-of select="@name"/>
+                        </xsl:attribute>
+                        <xsl:attribute name="timestamp">
+                            <xsl:value-of select="@timestamp"/>
+                        </xsl:attribute>
+                        <xsl:attribute name="hostname">
+                            <xsl:value-of select="@hostname"/>
+                        </xsl:attribute>
+                        <xsl:attribute name="tests">
+                            <xsl:value-of select="@tests"/>
+                        </xsl:attribute>
+                        <xsl:attribute name="failures">
+                            <xsl:value-of select="@failures"/>
+                        </xsl:attribute>
+                        <xsl:attribute name="errors">
+                            <xsl:value-of select="@errors"/>
+                        </xsl:attribute>
+                        <xsl:if test="@skipped">
+                            <xsl:attribute name="skipped">
+                                <xsl:value-of select="@skipped"/>
+                            </xsl:attribute>
+                        </xsl:if>
+                        <xsl:attribute name="time">
+                            <xsl:value-of select="@time"/>
+                        </xsl:attribute>
+                        <xsl:attribute name="id">
+                            <xsl:value-of select="position()-1"/>
+                        </xsl:attribute>
+                        <xsl:attribute name="package">
+                            <xsl:value-of select="$_processContext/ns1:ProcessContext/ProjectName"/>
+                        </xsl:attribute>
+                        <xsl:copy-of select="ns:testcase"/>
+                    </ns:testsuite>
+                </xsl:for-each>
+            </ns:testsuites>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>GetTests</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Group</pd:from>
+        <pd:to>TestResultsSave</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>TestResultsSave</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetTests</pd:from>
+        <pd:to>Group</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

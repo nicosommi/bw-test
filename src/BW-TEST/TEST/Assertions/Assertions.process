@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:ns2="http://www.nicosommi.com/labs/test/xunit" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/EngineTypes" xmlns:ns0="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://www.nicosommi.com/labs/test/TESTTypes">
+    <xsd:import namespace="http://www.nicosommi.com/labs/test/TESTTypes" schemaLocation="/TEST/Resources/Schemas/TESTTypes.xsd"/>
+    <pd:name>TEST/Assertions/Assertions.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                    <xsd:element name="assertEquals">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="realValue" type="xsd:string"/>
+                                <xsd:element name="expectedValue" type="xsd:string"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="assertNotEquals">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="realValue" type="xsd:string"/>
+                                <xsd:element name="expectedValue" type="xsd:string"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="assertLessThan">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="realValue" type="xsd:string"/>
+                                <xsd:element name="expectedValue" type="xsd:string"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="assertLessThanOrEqual">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="realValue" type="xsd:string"/>
+                                <xsd:element name="expectedValue" type="xsd:string"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="assertGreaterThan">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="realValue" type="xsd:string"/>
+                                <xsd:element name="expectedValue" type="xsd:string"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="assertGreaterThanOrEqual">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="realValue" type="xsd:string"/>
+                                <xsd:element name="expectedValue" type="xsd:string"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:choice>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>44</pd:startX>
+    <pd:startY>95</pd:startY>
+    <pd:returnBindings>
+        <pfx:TestProcessOutput>
+            <pfx:testcase>
+                <xsl:if test="count($_error/ns:ErrorReport)>0">
+                    <ns2:failure>
+                        <xsl:if test="$_error/ns:ErrorReport/Msg">
+                            <xsl:attribute name="message">
+                                <xsl:value-of select="$_error/ns:ErrorReport/Msg"/>
+                            </xsl:attribute>
+                        </xsl:if>
+                        <xsl:attribute name="type">
+                            <xsl:value-of select="'Assertion Failure'"/>
+                        </xsl:attribute>
+                    </ns2:failure>
+                </xsl:if>
+            </pfx:testcase>
+        </pfx:TestProcessOutput>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:TestProcessOutput"/>
+    <pd:endX>517</pd:endX>
+    <pd:endY>101</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1379160540480</pd:targetNamespace>
+    <pd:activity name="AssertEquals">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>254</pd:x>
+        <pd:y>44</pd:y>
+        <config>
+            <processName>/TEST/Assertions/AssertEquals.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <xsl:copy-of select="$Start/root/assertEquals"/>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="AssertNotEquals">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>253</pd:x>
+        <pd:y>133</pd:y>
+        <config>
+            <processName>/TEST/Assertions/AssertNotEquals.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <xsl:copy-of select="$Start/root/assertNotEquals"/>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="AssertGreaterThan">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>245</pd:x>
+        <pd:y>201</pd:y>
+        <config>
+            <processName>/TEST/Assertions/AssertGreaterThan.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <xsl:copy-of select="$Start/root/assertGreaterThan"/>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="AssertGreaterThanOrEqual">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>235</pd:x>
+        <pd:y>277</pd:y>
+        <config>
+            <processName>/TEST/Assertions/AssertGreaterThanOrEqual.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <xsl:copy-of select="$Start/root/assertGreaterThanOrEqual"/>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="AssertLessThanOrEqual">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>237</pd:x>
+        <pd:y>431</pd:y>
+        <config>
+            <processName>/TEST/Assertions/AssertLessThanOrEqual.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <xsl:copy-of select="$Start/root/assertLessThanOrEqual"/>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="AssertLessThan">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>236</pd:x>
+        <pd:y>361</pd:y>
+        <config>
+            <processName>/TEST/Assertions/AssertLessThan.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <xsl:copy-of select="$Start/root/assertLessThan"/>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Catch">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>451</pd:x>
+        <pd:y>257</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <catchAll>true</catchAll>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>AssertEquals</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>count($Start/root/assertEquals)&gt;0</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>AssertNotEquals</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>count($Start/root/assertNotEquals)&gt;0</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>AssertGreaterThan</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>count($Start/root/assertGreaterThan)&gt;0</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>AssertGreaterThanOrEqual</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>count($Start/root/assertGreaterThanOrEqual)&gt;0</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>AssertLessThan</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>count($Start/root/assertLessThan)&gt;0</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>AssertLessThanOrEqual</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>count($Start/root/assertLessThanOrEqual)&gt;0</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>AssertLessThanOrEqual</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>AssertLessThan</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>AssertGreaterThanOrEqual</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>AssertGreaterThan</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>AssertNotEquals</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>AssertEquals</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Catch</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

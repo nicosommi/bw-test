@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <pd:name>TEST/Misc/generateUUID.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startX>150</pd:startX>
+    <pd:startY>64</pd:startY>
+    <pd:returnBindings>
+        <root>
+            <UUID>
+                <xsl:value-of select="$Java-Code/javaCodeActivityOutput/UUID"/>
+            </UUID>
+        </root>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="UUID" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>450</pd:endX>
+    <pd:endY>64</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1379160540480</pd:targetNamespace>
+    <pd:activity name="Java Code">
+        <pd:type>com.tibco.plugin.java.JavaActivity</pd:type>
+        <pd:resourceType>ae.javapalette.javaActivity</pd:resourceType>
+        <pd:x>277</pd:x>
+        <pd:y>67</pd:y>
+        <config>
+            <fileName>generateUUIDJavaCode</fileName>
+            <packageName>REST.Misc.generateUUID</packageName>
+            <fullsource>package REST.Misc.generateUUID;
+import java.util.*;
+import java.io.*;
+public class generateUUIDJavaCode{
+/****** START SET/GET METHOD, DO NOT MODIFY *****/
+	protected String UUID = "";
+	public String getUUID() {
+		return UUID;
+	}
+	public void setUUID(String val) {
+		UUID = val;
+	}
+/****** END SET/GET METHOD, DO NOT MODIFY *****/
+	public generateUUIDJavaCode() {
+	}
+	public void invoke() throws Exception {
+/* Available Variables: DO NOT MODIFY
+	Out : String UUID
+* Available Variables: DO NOT MODIFY *****/
+
+		setUUID(java.util.UUID.randomUUID().toString());
+
+	}
+}
+</fullsource>
+            <outputData>
+                <row>
+                    <fieldName>UUID</fieldName>
+                    <fieldType>string</fieldType>
+                    <fieldRequired>optional</fieldRequired>
+                </row>
+            </outputData>
+            <byteCode>
+                <class>
+                    <name>generateUUIDJavaCode</name>
+                    <byteCode>yv66vgAAADIAJgkABwAYCgAIABkIABoKABsAHAoAGwAdCgAHAB4HAB8HACABAARVVUlEAQASTGphdmEvbGFuZy9TdHJpbmc7AQAHZ2V0VVVJRAEAFCgpTGphdmEvbGFuZy9TdHJpbmc7AQAEQ29kZQEAD0xpbmVOdW1iZXJUYWJsZQEAB3NldFVVSUQBABUoTGphdmEvbGFuZy9TdHJpbmc7KVYBAAY8aW5pdD4BAAMoKVYBAAZpbnZva2UBAApFeGNlcHRpb25zBwAhAQAKU291cmNlRmlsZQEAGWdlbmVyYXRlVVVJREphdmFDb2RlLmphdmEMAAkACgwAEQASAQAABwAiDAAjACQMACUADAwADwAQAQArUkVTVC9NaXNjL2dlbmVyYXRlVVVJRC9nZW5lcmF0ZVVVSURKYXZhQ29kZQEAEGphdmEvbGFuZy9PYmplY3QBABNqYXZhL2xhbmcvRXhjZXB0aW9uAQAOamF2YS91dGlsL1VVSUQBAApyYW5kb21VVUlEAQASKClMamF2YS91dGlsL1VVSUQ7AQAIdG9TdHJpbmcAIQAHAAgAAAABAAQACQAKAAAABAABAAsADAABAA0AAAAdAAEAAQAAAAUqtAABsAAAAAEADgAAAAYAAQAAAAgAAQAPABAAAQANAAAAIgACAAIAAAAGKiu1AAGxAAAAAQAOAAAACgACAAAACwAFAAwAAQARABIAAQANAAAAKwACAAEAAAALKrcAAioSA7UAAbEAAAABAA4AAAAOAAMAAAAOAAQABgAKAA8AAQATABIAAgANAAAAJwACAAEAAAALKrgABLYABbYABrEAAAABAA4AAAAKAAIAAAAVAAoAFwAUAAAABAABABUAAQAWAAAAAgAX</byteCode>
+                </class>
+            </byteCode>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Java Code</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Java Code</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

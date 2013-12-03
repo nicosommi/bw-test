@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BWSharedResource xmlns:pfx="http://www.tibco.com/schemas/rapid/UserManagement/Schema.xsd">
+    <import namespace="http://www.tibco.com/schemas/rapid/UserManagement/Schema.xsd" schemaLocation="/UserManagement/UserSchemas.xsd"/>
+    <name>Users</name>
+    <resourceType>ae.shared.sharedVariable</resourceType>
+    <config xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <persistent>false</persistent>
+        <multi-engine>false</multi-engine>
+        <initialValue>byRef</initialValue>
+        <initialValueRef>/UserManagement/ExistingExampleUsers.xml</initialValueRef>
+        <xsdString ref="pfx:Users"/>
+    </config>
+</BWSharedResource>

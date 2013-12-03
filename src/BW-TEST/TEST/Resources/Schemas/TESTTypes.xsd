@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	 xmlns:xunit="http://www.nicosommi.com/labs/test/xunit"
+	 xmlns="http://www.nicosommi.com/labs/test/TESTTypes"
+	 targetNamespace="http://www.nicosommi.com/labs/test/TESTTypes"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xsd:import namespace="http://www.nicosommi.com/labs/test/xunit" schemaLocation="/TEST/Resources/Schemas/xunit.xsd"/>
+	<xsd:complexType name="parametersType">
+		<xsd:sequence>
+			<xsd:element name="parameter" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="name" type="xsd:string"/>
+						<xsd:element name="value" type="xsd:string"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="TestProcessInput">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="parameters" type="parametersType" minOccurs="0"/>
+				<xsd:element name="extraHTTPHeaders" type="extraHeadersType" minOccurs="0"/>
+				<xsd:element name="body" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="content" type="xsd:anyType" minOccurs="0"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:complexType name="extraHeadersType">
+		<xsd:sequence>
+			<xsd:element name="header" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="name" type="xsd:string"/>
+						<xsd:element name="value" type="xsd:string"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="TestProcessOutput">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="testcase" type="xunit:testcase" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ExtraHTTPHeaders" type="extraHeadersType"/>
+	<xsd:element name="parameters" type="parametersType"/>
+<xsd:complexType name="testcase">
+									<xsd:sequence>
+										<xsd:element name="handler" type="xsd:string" minOccurs="0"/>
+									</xsd:sequence>
+									<xsd:attribute name="name" type="xsd:string"/>
+								</xsd:complexType>
+<xsd:complexType name="testsuite">
+						<xsd:sequence>
+							<xsd:element name="testcase" minOccurs="0" maxOccurs="unbounded" type="testcase">
+								
+							</xsd:element>
+						</xsd:sequence>
+						<xsd:attribute name="name" type="xsd:string"/>
+					</xsd:complexType>
+	<xsd:element name="testsuites">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="testsuite" minOccurs="0" maxOccurs="unbounded" type="testsuite">
+					
+				</xsd:element>
+			</xsd:sequence>
+			<xsd:attribute name="name" type="xsd:string"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="testcase" type="testcase" />
+	<xsd:element name="testsuite" type="testsuite" />
+</xsd:schema>

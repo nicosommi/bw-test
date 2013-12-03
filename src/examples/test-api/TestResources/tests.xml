@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<testsuites name = "testUserManagement" xmlns = "http://www.nicosommi.com/labs/test/TESTTypes" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.nicosommi.com/labs/test/TESTTypes ../TEST/Resources/Schemas/TESTTypes.xsd">
+	<testsuite name = "TestBase">
+		<testcase name = "TestSet">
+			<handler>/TestResources/setUserTest.process</handler>
+		</testcase>
+		<testcase name = "TestGet">
+			<handler>/TestResources/getUsersTest.process</handler>
+		</testcase>
+	</testsuite>
+	<testsuite name = "TestCRUD">
+		<testcase name = "TestAdd">
+			<handler>/TestResources/addUserTest.process</handler>
+		</testcase>
+		<testcase name = "TestRemove">
+			<handler>/TestResources/removeUserTest.process</handler>
+		</testcase>
+	</testsuite>
+</testsuites>

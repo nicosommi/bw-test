@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/schemas/rapid/UserManagement/Schema.xsd" xmlns:pfx="http://www.nicosommi.com/labs/test/TESTTypes">
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.nicosommi.com/labs/test/TESTTypes" schemaLocation="/TEST/Resources/Schemas/TESTTypes.xsd"/>
+    <pd:name>TestResources/addUserTest.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:TestProcessInput"/>
+    <pd:startX>81</pd:startX>
+    <pd:startY>61</pd:startY>
+    <pd:returnBindings>
+        <pfx:TestProcessOutput>
+            <pfx:testcase>
+                <xsl:copy-of select="$Assertions/pfx:TestProcessOutput/pfx:testcase/*"/>
+            </pfx:testcase>
+        </pfx:TestProcessOutput>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:TestProcessOutput"/>
+    <pd:endX>482</pd:endX>
+    <pd:endY>63</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1385562207047</pd:targetNamespace>
+    <pd:activity name="AddUser">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>177</pd:x>
+        <pd:y>77</pd:y>
+        <config>
+            <processName>/UserManagement/AddUser.process</processName>
+        </config>
+        <pd:inputBindings>
+            <ns:User>
+                <ns:id>
+                    <xsl:value-of select="''"/>
+                </ns:id>
+                <ns:firstName>
+                    <xsl:value-of select="'john'"/>
+                </ns:firstName>
+                <ns:lastName>
+                    <xsl:value-of select="'doe'"/>
+                </ns:lastName>
+            </ns:User>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Assertions">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>376</pd:x>
+        <pd:y>64</pd:y>
+        <config>
+            <processName>/TEST/Assertions/Assertions.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <assertEquals>
+                    <realValue>
+                        <xsl:value-of select="$AddUser/ns:User/ns:firstName"/>
+                    </realValue>
+                    <expectedValue>
+                        <xsl:value-of select="'john'"/>
+                    </expectedValue>
+                </assertEquals>
+                <assertEquals>
+                    <realValue>
+                        <xsl:value-of select="$AddUser/ns:User/ns:lastName"/>
+                    </realValue>
+                    <expectedValue>
+                        <xsl:value-of select="'doe'"/>
+                    </expectedValue>
+                </assertEquals>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>AddUser</pd:from>
+        <pd:to>Assertions</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Assertions</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>AddUser</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

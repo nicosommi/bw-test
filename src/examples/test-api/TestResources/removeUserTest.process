@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.nicosommi.com/labs/test/xunit" xmlns:ns="http://www.tibco.com/schemas/rapid/UserManagement/Schema.xsd" xmlns:pfx="http://www.nicosommi.com/labs/test/TESTTypes">
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.nicosommi.com/labs/test/TESTTypes" schemaLocation="/TEST/Resources/Schemas/TESTTypes.xsd"/>
+    <pd:name>TestResources/removeUserTest.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:TestProcessInput"/>
+    <pd:startX>42</pd:startX>
+    <pd:startY>75</pd:startY>
+    <pd:returnBindings>
+        <pfx:TestProcessOutput>
+            <pfx:testcase>
+                <xsl:copy-of select="$Assertions/pfx:TestProcessOutput/pfx:testcase/*"/>
+            </pfx:testcase>
+        </pfx:TestProcessOutput>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:TestProcessOutput"/>
+    <pd:endX>667</pd:endX>
+    <pd:endY>64</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1385562207047</pd:targetNamespace>
+    <pd:activity name="Assertions">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>572</pd:x>
+        <pd:y>74</pd:y>
+        <config>
+            <processName>/TEST/Assertions/Assertions.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <assertEquals>
+                    <realValue>
+                        <xsl:value-of select="count($GetUsers-1/ns:Users/ns:User[ns:id=$AddUser/ns:User/ns:id])"/>
+                    </realValue>
+                    <expectedValue>
+                        <xsl:value-of select="1"/>
+                    </expectedValue>
+                </assertEquals>
+                <assertEquals>
+                    <realValue>
+                        <xsl:value-of select="count($GetUsers/ns:Users/ns:User[ns:id=$AddUser/ns:User/ns:id])"/>
+                    </realValue>
+                    <expectedValue>
+                        <xsl:value-of select="0"/>
+                    </expectedValue>
+                </assertEquals>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="RemoveUser">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>373</pd:x>
+        <pd:y>70</pd:y>
+        <config>
+            <processName>/UserManagement/RemoveUser.process</processName>
+        </config>
+        <pd:inputBindings>
+            <ns:User>
+                <ns:id>
+                    <xsl:value-of select="$AddUser/ns:User/ns:id"/>
+                </ns:id>
+                <ns:firstName>
+                    <xsl:value-of select="'john'"/>
+                </ns:firstName>
+                <ns:lastName>
+                    <xsl:value-of select="'doe'"/>
+                </ns:lastName>
+            </ns:User>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="AddUser">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>159</pd:x>
+        <pd:y>75</pd:y>
+        <config>
+            <processName>/UserManagement/AddUser.process</processName>
+        </config>
+        <pd:inputBindings>
+            <ns:User>
+                <ns:id>
+                    <xsl:value-of select="''"/>
+                </ns:id>
+                <ns:firstName>
+                    <xsl:value-of select="'john'"/>
+                </ns:firstName>
+                <ns:lastName>
+                    <xsl:value-of select="'doe'"/>
+                </ns:lastName>
+            </ns:User>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="GetUsers">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>473</pd:x>
+        <pd:y>75</pd:y>
+        <config>
+            <processName>/UserManagement/GetUsers.process</processName>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="GetUsers-1">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>261</pd:x>
+        <pd:y>76</pd:y>
+        <config>
+            <processName>/UserManagement/GetUsers.process</processName>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Assertions</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>AddUser</pd:from>
+        <pd:to>GetUsers-1</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>RemoveUser</pd:from>
+        <pd:to>GetUsers</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetUsers</pd:from>
+        <pd:to>Assertions</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>AddUser</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetUsers-1</pd:from>
+        <pd:to>RemoveUser</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

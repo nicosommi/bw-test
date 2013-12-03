@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:BW="java://com.tibco.pe.core.JavaCustomXPATHFunctions" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:regex="java://com.hp.labs.tibco.bw.regex.RegexMatch" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx2="http://www.nicosommi.com/labs/test/TESTTypes" xmlns:pfx="http://www.nicosommi.com/labs/test/xunit">
+    <xsd:import namespace="http://www.nicosommi.com/labs/test/TESTTypes" schemaLocation="/TEST/Resources/Schemas/TESTTypes.xsd"/>
+    <xsd:import namespace="http://www.nicosommi.com/labs/test/xunit" schemaLocation="/TEST/Resources/Schemas/xunit.xsd"/>
+    <pd:name>TEST/Core/TestSuiteProcessor.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="url" type="xsd:string"/>
+                    <xsd:element name="postData" type="xsd:string" minOccurs="0"/>
+                    <xsd:element ref="pfx2:testsuite"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>35</pd:startX>
+    <pd:startY>110</pd:startY>
+    <pd:returnBindings>
+        <xsl:copy-of select="$End/pfx:testsuite"/>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:testsuite"/>
+    <pd:endX>839</pd:endX>
+    <pd:endY>101</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables>
+        <End ref="pfx:testsuite"/>
+        <BeginTime>
+            <xsd:element name="root">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="init" type="xsd:long" minOccurs="0"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </BeginTime>
+    </pd:processVariables>
+    <pd:targetNamespace>http://xmlns.example.com/1376336806952</pd:targetNamespace>
+    <pd:group name="Group">
+        <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
+        <pd:resourceType>ae.process.group</pd:resourceType>
+        <pd:x>201</pd:x>
+        <pd:y>31</pd:y>
+        <pd:width>413</pd:width>
+        <pd:height>138</pd:height>
+        <pd:collapsedWidth>57</pd:collapsedWidth>
+        <pd:collapsedHeight>70</pd:collapsedHeight>
+        <pd:groupVariables/>
+        <pd:joinToggle>inherit</pd:joinToggle>
+        <config>
+            <pd:groupType>inputLoop</pd:groupType>
+            <pd:serializable>false</pd:serializable>
+            <pd:over>$Start/root/pfx2:testsuite/pfx2:testcase</pd:over>
+            <pd:iterationElementSlot>currentTestCase</pd:iterationElementSlot>
+            <pd:indexSlot>indexTestProcessor</pd:indexSlot>
+            <pd:outSlot>testcases</pd:outSlot>
+            <pd:activityOutputName>TestProcessor</pd:activityOutputName>
+            <pd:accumulateOutput>true</pd:accumulateOutput>
+        </config>
+        <pd:inputBindings/>
+        <pd:expanded>true</pd:expanded>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>Assign-Begin</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Assign-End</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Assign-Begin</pd:from>
+            <pd:to>TestProcessor</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>TestProcessor</pd:from>
+            <pd:to>Assign-End</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:activity name="TestProcessor">
+            <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+            <pd:resourceType>ae.process.subprocess</pd:resourceType>
+            <pd:x>402</pd:x>
+            <pd:y>103</pd:y>
+            <config>
+                <processName>/TEST/Core/TestProcessor.process</processName>
+            </config>
+            <pd:inputBindings>
+                <root>
+                    <url>
+                        <xsl:value-of select="$Start/root/url"/>
+                    </url>
+                    <xsl:if test="$Start/root/postData">
+                        <postData>
+                            <xsl:value-of select="$Start/root/postData"/>
+                        </postData>
+                    </xsl:if>
+                    <xsl:copy-of select="$currentTestCase/pfx2:testcase"/>
+                </root>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Assign-Begin">
+            <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+            <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+            <pd:x>280</pd:x>
+            <pd:y>107</pd:y>
+            <config>
+                <variableName>BeginTime</variableName>
+            </config>
+            <pd:inputBindings>
+                <root>
+                    <init>
+                        <xsl:value-of select="tib:timestamp()"/>
+                    </init>
+                </root>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Assign-End">
+            <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+            <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+            <pd:x>516</pd:x>
+            <pd:y>106</pd:y>
+            <config>
+                <variableName>End</variableName>
+            </config>
+            <pd:inputBindings>
+                <pfx:testsuite>
+                    <xsl:variable name="varTestResult" select="if(count($TestProcessor/pfx2:TestProcessOutput/pfx2:testcase/*)=0) then&#xA;&#x9;0&#xA;else if(count($TestProcessor/pfx2:TestProcessOutput/pfx2:testcase/pfx:error)=1) then&#xA;&#x9;1&#xA;else if(count($TestProcessor/pfx2:TestProcessOutput/pfx2:testcase/pfx:failure)=1) then&#xA;&#x9;2&#xA;else&#xA;&#x9;3"/>
+                    <xsl:attribute name="name">
+                        <xsl:value-of select="$End/pfx:testsuite/@name"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="timestamp">
+                        <xsl:value-of select="$End/pfx:testsuite/@timestamp"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="hostname">
+                        <xsl:value-of select="$End/pfx:testsuite/@hostname"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="tests">
+                        <xsl:value-of select="$End/pfx:testsuite/@tests"/>
+                    </xsl:attribute>
+                    <xsl:choose>
+                        <xsl:when test="$varTestResult=2">
+                            <xsl:attribute name="failures">
+                                <xsl:value-of select="$End/pfx:testsuite/@failures + 1"/>
+                            </xsl:attribute>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="failures">
+                                <xsl:value-of select="$End/pfx:testsuite/@failures"/>
+                            </xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                    <xsl:choose>
+                        <xsl:when test="$varTestResult=1">
+                            <xsl:attribute name="errors">
+                                <xsl:value-of select="$End/pfx:testsuite/@errors + 1"/>
+                            </xsl:attribute>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="errors">
+                                <xsl:value-of select="$End/pfx:testsuite/@errors"/>
+                            </xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                    <xsl:choose>
+                        <xsl:when test="$varTestResult=3">
+                            <xsl:attribute name="skipped">
+                                <xsl:value-of select="$End/pfx:testsuite/@skipped + 1"/>
+                            </xsl:attribute>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:if test="$End/pfx:testsuite/@skipped">
+                                <xsl:attribute name="skipped">
+                                    <xsl:value-of select="$End/pfx:testsuite/@skipped"/>
+                                </xsl:attribute>
+                            </xsl:if>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                    <xsl:attribute name="time">
+                        <xsl:value-of select="$End/pfx:testsuite/@time"/>
+                    </xsl:attribute>
+                    <pfx:testcase>
+                        <xsl:if test="$currentTestCase/pfx2:testcase/@name">
+                            <xsl:attribute name="name">
+                                <xsl:value-of select="$currentTestCase/pfx2:testcase/@name"/>
+                            </xsl:attribute>
+                        </xsl:if>
+                        <xsl:if test="$currentTestCase/pfx2:testcase/pfx2:handler">
+                            <xsl:attribute name="classname">
+                                <xsl:value-of select="$currentTestCase/pfx2:testcase/pfx2:handler"/>
+                            </xsl:attribute>
+                        </xsl:if>
+                        <xsl:attribute name="time">
+                            <xsl:value-of select="tib:timestamp() - $BeginTime/root/init"/>
+                        </xsl:attribute>
+                        <xsl:copy-of select="$TestProcessor/pfx2:TestProcessOutput/pfx2:testcase/*"/>
+                    </pfx:testcase>
+                    <xsl:copy-of select="$End/pfx:testsuite/pfx:testcase"/>
+                </pfx:testsuite>
+            </pd:inputBindings>
+        </pd:activity>
+    </pd:group>
+    <pd:activity name="Assign-End-1">
+        <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+        <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+        <pd:x>125</pd:x>
+        <pd:y>111</pd:y>
+        <config>
+            <variableName>End</variableName>
+        </config>
+        <pd:inputBindings>
+            <pfx:testsuite>
+                <xsl:attribute xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="name">
+                    <xsl:value-of select="$Start/root/pfx2:testsuite/@name"/>
+                </xsl:attribute>
+                <xsl:attribute xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="timestamp">
+                    <xsl:value-of select="current-dateTime()"/>
+                </xsl:attribute>
+                <xsl:attribute xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="hostname">
+                    <xsl:value-of select="BW:getHostName()"/>
+                </xsl:attribute>
+                <xsl:attribute xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="tests">
+                    <xsl:value-of select="count($Start/root/pfx2:testsuite/pfx2:testcase)"/>
+                </xsl:attribute>
+                <xsl:attribute xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="failures">
+                    <xsl:value-of select="0"/>
+                </xsl:attribute>
+                <xsl:attribute xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="errors">
+                    <xsl:value-of select="0"/>
+                </xsl:attribute>
+                <xsl:attribute xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="time">
+                    <xsl:value-of select="0"/>
+                </xsl:attribute>
+                <xsl:attribute name="skipped">
+                    <xsl:value-of select="0"/>
+                </xsl:attribute>
+            </pfx:testsuite>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Assign-End-1-1">
+        <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+        <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+        <pd:x>707</pd:x>
+        <pd:y>101</pd:y>
+        <config>
+            <variableName>End</variableName>
+        </config>
+        <pd:inputBindings>
+            <pfx:testsuite>
+                <xsl:attribute xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="name">
+                    <xsl:value-of select="$End/pfx:testsuite/@name"/>
+                </xsl:attribute>
+                <xsl:attribute xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="timestamp">
+                    <xsl:value-of select="$End/pfx:testsuite/@timestamp"/>
+                </xsl:attribute>
+                <xsl:attribute xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="hostname">
+                    <xsl:value-of select="$End/pfx:testsuite/@hostname"/>
+                </xsl:attribute>
+                <xsl:attribute xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="tests">
+                    <xsl:value-of select="$End/pfx:testsuite/@tests"/>
+                </xsl:attribute>
+                <xsl:attribute xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="failures">
+                    <xsl:value-of select="$End/pfx:testsuite/@failures"/>
+                </xsl:attribute>
+                <xsl:attribute xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="errors">
+                    <xsl:value-of select="$End/pfx:testsuite/@errors"/>
+                </xsl:attribute>
+                <xsl:if test="$End/pfx:testsuite/@skipped">
+                    <xsl:attribute name="skipped">
+                        <xsl:value-of select="$End/pfx:testsuite/@skipped"/>
+                    </xsl:attribute>
+                </xsl:if>
+                <xsl:attribute xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="time">
+                    <xsl:value-of select="sum($End/pfx:testsuite/pfx:testcase/@time)"/>
+                </xsl:attribute>
+                <xsl:copy-of select="$End/pfx:testsuite/pfx:testcase"/>
+            </pfx:testsuite>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Assign-End-1</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Group</pd:from>
+        <pd:to>Assign-End-1-1</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Assign-End-1</pd:from>
+        <pd:to>Group</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Assign-End-1-1</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

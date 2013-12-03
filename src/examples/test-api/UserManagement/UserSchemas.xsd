@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 xmlns="http://www.tibco.com/schemas/rapid/UserManagement/Schema.xsd"
+	 targetNamespace="http://www.tibco.com/schemas/rapid/UserManagement/Schema.xsd"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xs:complexType name="UserType">
+		<xs:sequence>
+			<xs:element name="id" type="xs:string"/>
+			<xs:element name="firstName" type="xs:string"/>
+			<xs:element name="lastName" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="User" type="UserType"/>
+	<xs:complexType name="UsersType">
+		<xs:sequence>
+			<xs:element name="User" type="UserType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Users" type="UsersType"/>
+</xs:schema>

@@ -1,0 +1,13 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<Users xmlns = "http://www.tibco.com/schemas/rapid/UserManagement/Schema.xsd" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.tibco.com/schemas/rapid/UserManagement/Schema.xsd UserSchemas.xsd">
+	<User>
+		<id>060bc621-c8c8-4a8c-94b1-4436cfdd37b2</id>
+		<firstName>john</firstName>
+		<lastName>doe</lastName>
+	</User>
+	<User>
+		<id>060bc621-c8c8-4a8c-94b1-4436cfdd37b3</id>
+		<firstName>juan</firstName>
+		<lastName>lopez</lastName>
+	</User>
+</Users>
