@@ -30,7 +30,7 @@
         <pd:type>com.tibco.plugin.java.JavaActivity</pd:type>
         <pd:resourceType>ae.javapalette.javaActivity</pd:resourceType>
         <pd:x>277</pd:x>
-        <pd:y>67</pd:y>
+        <pd:y>64</pd:y>
         <config>
             <fileName>generateUUIDJavaCode</fileName>
             <packageName>REST.Misc.generateUUID</packageName>

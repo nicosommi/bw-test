@@ -7,11 +7,13 @@
     <pd:startX>150</pd:startX>
     <pd:startY>64</pd:startY>
     <pd:returnBindings>
-        <pfx:TestProcessOutput/>
+        <pfx:TestProcessOutput>
+            <pfx:testcase/>
+        </pfx:TestProcessOutput>
     </pd:returnBindings>
     <pd:endName>End</pd:endName>
     <pd:endType ref="pfx:TestProcessOutput"/>
-    <pd:endX>450</pd:endX>
+    <pd:endX>451</pd:endX>
     <pd:endY>64</pd:endY>
     <pd:errorSchemas/>
     <pd:processVariables/>

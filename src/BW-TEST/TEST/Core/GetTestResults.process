@@ -5,7 +5,7 @@
     <pd:name>TEST/Core/GetTestResults.process</pd:name>
     <pd:startName>Start</pd:startName>
     <pd:startX>91</pd:startX>
-    <pd:startY>105</pd:startY>
+    <pd:startY>100</pd:startY>
     <pd:returnBindings>
         <xsl:copy-of select="$GetVariable/pfx2:testsuites"/>
     </pd:returnBindings>
@@ -20,7 +20,7 @@
         <pd:type>com.tibco.pe.core.GetSharedVariableActivity</pd:type>
         <pd:resourceType>ae.activities.getSharedVariable</pd:resourceType>
         <pd:x>264</pd:x>
-        <pd:y>105</pd:y>
+        <pd:y>100</pd:y>
         <config>
             <variableConfig>/TEST/Resources/Variables/testResultsVar.sharedvariable</variableConfig>
         </config>

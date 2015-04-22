@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns="http://www.nicosommi.com/labs/test/xunit" xmlns:ns3="http://www.tibco.com/pe/EngineTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://www.nicosommi.com/labs/test/TESTTypes">
+<pd:ProcessDefinition xmlns:ns2="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.nicosommi.com/labs/test/xunit" xmlns:ns3="http://www.tibco.com/pe/EngineTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://www.nicosommi.com/labs/test/TESTTypes">
     <xsd:import namespace="http://www.nicosommi.com/labs/test/xunit" schemaLocation="/TEST/Resources/Schemas/xunit.xsd"/>
     <pd:name>TEST/Tester.process</pd:name>
     <pd:startName>TESTReceiver</pd:startName>
@@ -9,8 +9,8 @@
     <pd:starter name="TESTReceiver">
         <pd:type>com.tibco.plugin.http.HTTPEventSource</pd:type>
         <pd:resourceType>httppalette.httpEventSource</pd:resourceType>
-        <pd:x>52</pd:x>
-        <pd:y>117</pd:y>
+        <pd:x>78</pd:x>
+        <pd:y>116</pd:y>
         <config>
             <outputMode>String</outputMode>
             <defaultEncoding>ISO8859_1</defaultEncoding>
@@ -38,15 +38,56 @@
     </pd:starter>
     <pd:endName>End</pd:endName>
     <pd:endX>809</pd:endX>
-    <pd:endY>121</pd:endY>
+    <pd:endY>116</pd:endY>
     <pd:errorSchemas/>
     <pd:processVariables/>
     <pd:targetNamespace>http://xmlns.example.com/1376336354216</pd:targetNamespace>
+    <pd:activity name="Catch">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>178</pd:x>
+        <pd:y>227</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <catchAll>true</catchAll>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="Generate Error">
+        <pd:type>com.tibco.pe.core.GenerateErrorActivity</pd:type>
+        <pd:resourceType>ae.activities.throw</pd:resourceType>
+        <pd:x>399</pd:x>
+        <pd:y>227</pd:y>
+        <config>
+            <faultName/>
+        </config>
+        <pd:inputBindings>
+            <ns2:ActivityInput/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="GetTestResults">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>389</pd:x>
+        <pd:y>116</pd:y>
+        <config>
+            <processName>/TEST/Core/GetTestResults.process</processName>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="Null">
+        <pd:type>com.tibco.plugin.timer.NullActivity</pd:type>
+        <pd:resourceType>ae.activities.null</pd:resourceType>
+        <pd:x>296</pd:x>
+        <pd:y>116</pd:y>
+        <config/>
+        <pd:inputBindings/>
+    </pd:activity>
     <pd:activity name="Send HTTP Response">
         <pd:type>com.tibco.plugin.http.HTTPResponseActivity</pd:type>
         <pd:resourceType>httppalette.httpWebResponse</pd:resourceType>
         <pd:x>687</pd:x>
-        <pd:y>124</pd:y>
+        <pd:y>116</pd:y>
         <config>
             <closeConnection>true</closeConnection>
             <eventSource>TESTReceiver</eventSource>
@@ -99,29 +140,6 @@
             </ResponseActivityInput>
         </pd:inputBindings>
     </pd:activity>
-    <pd:activity name="Catch">
-        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
-        <pd:resourceType>ae.activities.catch</pd:resourceType>
-        <pd:x>178</pd:x>
-        <pd:y>227</pd:y>
-        <pd:handler>true</pd:handler>
-        <config>
-            <catchAll>true</catchAll>
-        </config>
-        <pd:inputBindings/>
-    </pd:activity>
-    <pd:activity name="Generate Error">
-        <pd:type>com.tibco.pe.core.GenerateErrorActivity</pd:type>
-        <pd:resourceType>ae.activities.throw</pd:resourceType>
-        <pd:x>399</pd:x>
-        <pd:y>231</pd:y>
-        <config>
-            <faultName/>
-        </config>
-        <pd:inputBindings>
-            <ns2:ActivityInput/>
-        </pd:inputBindings>
-    </pd:activity>
     <pd:activity name="TestExecutionProcess">
         <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
         <pd:resourceType>ae.process.subprocess</pd:resourceType>
@@ -141,19 +159,11 @@
             </TestExecutionProcess>
         </pd:inputBindings>
     </pd:activity>
-    <pd:activity name="Null">
-        <pd:type>com.tibco.plugin.timer.NullActivity</pd:type>
-        <pd:resourceType>ae.activities.null</pd:resourceType>
-        <pd:x>296</pd:x>
-        <pd:y>119</pd:y>
-        <config/>
-        <pd:inputBindings/>
-    </pd:activity>
     <pd:activity name="TESTReportingProcess">
         <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
         <pd:resourceType>ae.process.subprocess</pd:resourceType>
         <pd:x>527</pd:x>
-        <pd:y>119</pd:y>
+        <pd:y>116</pd:y>
         <config>
             <processName>/TEST/Core/TestReportingProcess.process</processName>
         </config>
@@ -165,16 +175,6 @@
                 <xsl:copy-of select="$GetTestResults/ns:testsuites"/>
             </root>
         </pd:inputBindings>
-    </pd:activity>
-    <pd:activity name="GetTestResults">
-        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
-        <pd:resourceType>ae.process.subprocess</pd:resourceType>
-        <pd:x>389</pd:x>
-        <pd:y>116</pd:y>
-        <config>
-            <processName>/TEST/Core/GetTestResults.process</processName>
-        </config>
-        <pd:inputBindings/>
     </pd:activity>
     <pd:transition>
         <pd:from>Send HTTP Response</pd:from>

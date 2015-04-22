@@ -6,11 +6,11 @@
     <pd:startName>Start</pd:startName>
     <pd:startType ref="pfx:testsuites"/>
     <pd:startX>150</pd:startX>
-    <pd:startY>64</pd:startY>
+    <pd:startY>63</pd:startY>
     <pd:returnBindings/>
     <pd:endName>End</pd:endName>
     <pd:endX>450</pd:endX>
-    <pd:endY>64</pd:endY>
+    <pd:endY>63</pd:endY>
     <pd:errorSchemas/>
     <pd:processVariables/>
     <pd:targetNamespace>http://xmlns.example.com/1385038504306</pd:targetNamespace>
