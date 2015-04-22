@@ -19,8 +19,8 @@
             </xsd:complexType>
         </xsd:element>
     </pd:startType>
-    <pd:startX>27</pd:startX>
-    <pd:startY>96</pd:startY>
+    <pd:startX>38</pd:startX>
+    <pd:startY>123</pd:startY>
     <pd:returnBindings>
         <pfx:TestProcessOutput>
             <pfx:testcase>
@@ -40,19 +40,18 @@
         </pfx:TestProcessOutput>
     </pd:returnBindings>
     <pd:endName>End</pd:endName>
-    <pd:endType/>
-    <pd:endX>695</pd:endX>
-    <pd:endY>143</pd:endY>
+    <pd:endX>671</pd:endX>
+    <pd:endY>121</pd:endY>
     <pd:errorSchemas/>
     <pd:processVariables/>
     <pd:targetNamespace>http://xmlns.example.com/1379160540480</pd:targetNamespace>
     <pd:group name="Group">
         <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
         <pd:resourceType>ae.process.group</pd:resourceType>
-        <pd:x>107</pd:x>
-        <pd:y>2</pd:y>
+        <pd:x>109</pd:x>
+        <pd:y>3</pd:y>
         <pd:width>495</pd:width>
-        <pd:height>183</pd:height>
+        <pd:height>221</pd:height>
         <pd:collapsedWidth>57</pd:collapsedWidth>
         <pd:collapsedHeight>70</pd:collapsedHeight>
         <pd:groupVariables/>
@@ -94,7 +93,7 @@
         <pd:activity name="Null">
             <pd:type>com.tibco.plugin.timer.NullActivity</pd:type>
             <pd:resourceType>ae.activities.null</pd:resourceType>
-            <pd:x>341</pd:x>
+            <pd:x>342</pd:x>
             <pd:y>66</pd:y>
             <config/>
             <pd:inputBindings/>
@@ -102,15 +101,15 @@
         <pd:activity name="Generate Error">
             <pd:type>com.tibco.pe.core.GenerateErrorActivity</pd:type>
             <pd:resourceType>ae.activities.throw</pd:resourceType>
-            <pd:x>253</pd:x>
-            <pd:y>126</pd:y>
+            <pd:x>341</pd:x>
+            <pd:y>161</pd:y>
             <config>
                 <faultName/>
             </config>
             <pd:inputBindings>
                 <ns0:ActivityInput>
                     <message>
-                        <xsl:value-of select="concat('Expected &lt;', $currentAssert/assertNotEquals/expectedValue, '> to be Not Equal than &lt;', $currentAssert/assertNotEquals/realValue, '> but they are Equal')"/>
+                        <xsl:value-of select="concat('Expected &lt;', $currentAssert/assertNotEquals/expectedValue, '> not to be &lt;', $currentAssert/assertNotEquals/realValue, '>')"/>
                     </message>
                     <messageCode>
                         <xsl:value-of select="'Failure'"/>
