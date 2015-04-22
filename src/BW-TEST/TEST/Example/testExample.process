@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:ns2="http://www.nicosommi.com/labs/test/xunit" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.hp.com/labs/rest/RESTTypes" xmlns:ns4="http://www.ing.com/xsd/ExceptionHeader_001" xmlns:ns3="http://www.ing.com/xsd/CustomMessageHeader_003" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx2="http://www.ing.com/xsd/CustomHeaderExtensions_001" xmlns:pfx="http://www.nicosommi.com/labs/test/TESTTypes">
+    <xsd:import namespace="http://www.nicosommi.com/labs/test/TESTTypes" schemaLocation="/TEST/Resources/Schemas/TESTTypes.xsd"/>
+    <xsd:import namespace="http://www.ing.com/xsd/CustomHeaderExtensions_001" schemaLocation="/TEST/Resources/Schemas/ISS_STS_BIS_CustomHeaderExtensions_001.xsd"/>
+    <pd:name>TEST/Example/testExample.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:TestProcessInput"/>
+    <pd:startX>150</pd:startX>
+    <pd:startY>63</pd:startY>
+    <pd:returnBindings>
+        <xsl:copy-of select="$Assertions/pfx:TestProcessOutput"/>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:TestProcessOutput"/>
+    <pd:endX>603</pd:endX>
+    <pd:endY>63</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1376571407782</pd:targetNamespace>
+    <pd:activity name="Assertions">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>502</pd:x>
+        <pd:y>63</pd:y>
+        <config>
+            <processName>/TEST/Assertions/Assertions.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <assertEquals>
+                    <realValue>
+                        <xsl:value-of select="'1'"/>
+                    </realValue>
+                    <expectedValue>
+                        <xsl:value-of select="$ExpectedValues/expectedValues/parameter"/>
+                    </expectedValue>
+                </assertEquals>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="ExpectedValues">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>273</pd:x>
+        <pd:y>63</pd:y>
+        <config>
+            <element>
+                <xsd:element name="expectedValues">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="parameter" type="xsd:string"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <expectedValues>
+                <parameter>
+                    <xsl:value-of select="2"/>
+                </parameter>
+            </expectedValues>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Assertions</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>ExpectedValues</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ExpectedValues</pd:from>
+        <pd:to>Assertions</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>
