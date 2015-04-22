@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:regex="java://com.hp.labs.tibco.bw.regex.RegexMatch" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx2="http://www.nicosommi.com/labs/test/TESTTypes" xmlns:pfx="http://www.nicosommi.com/labs/test/xunit">
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:regex="java://com.hp.labs.tibco.bw.regex.RegexMatch" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx2="http://www.nicosommi.com/labs/test/TESTTypes" xmlns:pfx="http://www.nicosommi.com/labs/test/xunit">
     <xsd:import namespace="http://www.nicosommi.com/labs/test/TESTTypes" schemaLocation="/TEST/Resources/Schemas/TESTTypes.xsd"/>
     <xsd:import namespace="http://www.nicosommi.com/labs/test/xunit" schemaLocation="/TEST/Resources/Schemas/xunit.xsd"/>
     <pd:name>TEST/Core/TestReportingProcess.process</pd:name>
@@ -15,7 +15,7 @@
         </xsd:element>
     </pd:startType>
     <pd:startX>77</pd:startX>
-    <pd:startY>88</pd:startY>
+    <pd:startY>84</pd:startY>
     <pd:returnBindings>
         <root>
             <xsl:choose>
@@ -51,13 +51,12 @@
         <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
         <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
         <pd:x>248</pd:x>
-        <pd:y>88</pd:y>
+        <pd:y>84</pd:y>
         <config>
             <element>
                 <xsd:element name="testsuites">
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element name="name" type="xsd:string"/>
                             <xsd:element name="testsuite" minOccurs="0" maxOccurs="unbounded">
                                 <xsd:complexType>
                                     <xsd:sequence>
@@ -93,7 +92,7 @@
                                     </xsd:sequence>
                                     <xsd:attribute name="name" type="xsd:string" use="required"/>
                                     <xsd:attribute name="timestamp" type="xsd:dateTime" use="required"/>
-                                    <xsd:attribute name="hotsname" type="xsd:string" use="required"/>
+                                    <xsd:attribute name="hostname" type="xsd:string" use="required"/>
                                     <xsd:attribute name="tests" type="xsd:int" use="required"/>
                                     <xsd:attribute name="failures" type="xsd:int" use="required"/>
                                     <xsd:attribute name="errors" type="xsd:int" use="required"/>
@@ -104,15 +103,16 @@
                                 </xsd:complexType>
                             </xsd:element>
                         </xsd:sequence>
+                        <xsd:attribute name="name" type="xsd:string" use="required"/>
                     </xsd:complexType>
                 </xsd:element>
             </element>
         </config>
         <pd:inputBindings>
             <testsuites>
-                <name>
+                <xsl:attribute name="name">
                     <xsl:value-of select="'Report powered by BW-TEST'"/>
-                </name>
+                </xsl:attribute>
                 <xsl:for-each select="$Start/root/pfx:testsuites/pfx:testsuite">
                     <testsuite>
                         <xsl:attribute name="name">
@@ -120,9 +120,6 @@
                         </xsl:attribute>
                         <xsl:attribute name="timestamp">
                             <xsl:value-of select="@timestamp"/>
-                        </xsl:attribute>
-                        <xsl:attribute name="hotsname">
-                            <xsl:value-of select="@hostname"/>
                         </xsl:attribute>
                         <xsl:attribute name="tests">
                             <xsl:value-of select="@tests"/>
@@ -146,6 +143,9 @@
                         </xsl:attribute>
                         <xsl:attribute name="id">
                             <xsl:value-of select="@id"/>
+                        </xsl:attribute>
+                        <xsl:attribute name="hostname">
+                            <xsl:value-of select="@hostname"/>
                         </xsl:attribute>
                         <xsl:for-each select="pfx:testcase">
                             <testcase>
