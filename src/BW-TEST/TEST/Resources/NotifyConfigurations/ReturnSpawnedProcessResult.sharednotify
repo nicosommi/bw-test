@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BWSharedResource xmlns:pfx="http://www.nicosommi.com/labs/test/TESTTypes">
+    <import namespace="http://www.nicosommi.com/labs/test/TESTTypes" schemaLocation="/TEST/Resources/Schemas/TESTTypes.xsd"/>
+    <name>ReturnSpawnedProcessResult</name>
+    <resourceType>ae.shared.notifySharedConfig</resourceType>
+    <config xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <xsdString ref="pfx:TestProcessOutput"/>
+    </config>
+</BWSharedResource>
