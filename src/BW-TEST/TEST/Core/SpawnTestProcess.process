@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.nicosommi.com/labs/test/TESTTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <pd:name>TEST/Core/SpawnTestProcess.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="url" type="xsd:string"/>
+                    <xsd:element name="postData" type="xsd:string" minOccurs="0"/>
+                    <xsd:element ref="ns:testcase"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>160</pd:startX>
+    <pd:startY>65</pd:startY>
+    <pd:returnBindings/>
+    <pd:endName>End</pd:endName>
+    <pd:endX>550</pd:endX>
+    <pd:endY>65</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1418215427836</pd:targetNamespace>
+    <pd:activity name="Notify">
+        <pd:type>com.tibco.plugin.waitnotify.NotifyActivity</pd:type>
+        <pd:resourceType>ae.activities.notifyActivity</pd:resourceType>
+        <pd:x>430</pd:x>
+        <pd:y>65</pd:y>
+        <config>
+            <sharedConfig>/TEST/Resources/NotifyConfigurations/ReturnSpawnedProcessResult.sharednotify</sharedConfig>
+        </config>
+        <pd:inputBindings>
+            <input>
+                <xsl:copy-of select="$strategy/ns:TestProcessOutput"/>
+            </input>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="strategy">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>293</pd:x>
+        <pd:y>65</pd:y>
+        <config>
+            <processNameXPath>$Start/root/ns:testcase/ns:handler</processNameXPath>
+            <processName>/TEST/Core/DummyProcess.process</processName>
+            <spawn>false</spawn>
+        </config>
+        <pd:inputBindings>
+            <ns:TestProcessInput>
+                <ns:parameters>
+                    <ns:parameter>
+                        <ns:name>
+                            <xsl:value-of select="'classname'"/>
+                        </ns:name>
+                        <ns:value>
+                            <xsl:value-of select="$Start/root/ns:testcase/ns:handler"/>
+                        </ns:value>
+                    </ns:parameter>
+                    <ns:parameter>
+                        <ns:name>
+                            <xsl:value-of select="'command'"/>
+                        </ns:name>
+                        <ns:value>
+                            <xsl:value-of select="$Start/root/url"/>
+                        </ns:value>
+                    </ns:parameter>
+                </ns:parameters>
+                <ns:body>
+                    <ns:content>
+                        <xsl:value-of select="$Start/root/postData"/>
+                    </ns:content>
+                </ns:body>
+            </ns:TestProcessInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Notify</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>strategy</pd:from>
+        <pd:to>Notify</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>strategy</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

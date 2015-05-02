@@ -43,22 +43,6 @@
     
                 
                 </style>
-                <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"/>
-                <script type="text/javascript">
-                    $(document).ready(function() {
-                        $(".filter").change(function(event) {
-                            var self = $(this);
-                            $('.filter option:selected').each(function() {
-                                $('.testcases div').show();
-                                if ( $(this).val() != 'all' ) {
-                                    $('.testcases div[class != "' + $(this).val() + '"][class!="error-message"]').each(function() {
-                                    $(this).hide();
-                                    });
-                                }
-                            });
-                        }); 
-                    });
-                </script>
             </head>
             <body>
                 <xsl:apply-templates/>

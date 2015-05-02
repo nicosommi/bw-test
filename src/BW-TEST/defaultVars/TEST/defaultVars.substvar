@@ -2,6 +2,14 @@
 <repository xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns = "http://www.tibco.com/xmlns/repo/types/2002">
 	<globalVariables>
 		<globalVariable>
+			<name>UnitTestTimeout.msec</name>
+			<value>5000</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>Integer</type>
+			<modTime>1423657623997</modTime>
+		</globalVariable>
+		<globalVariable>
 			<name>allowOrigin</name>
 			<value>*</value>
 			<deploymentSettable>true</deploymentSettable>
@@ -35,11 +43,11 @@
 		</globalVariable>
 		<globalVariable>
 			<name>testPath</name>
-			<value>/TEST/Resources/Data/tests.xml</value>
+			<value>/TEST/Example/tests.xml</value>
 			<deploymentSettable>true</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
 			<type>String</type>
-			<modTime>1384867147817</modTime>
+			<modTime>1420637042417</modTime>
 		</globalVariable>
 	</globalVariables>
 </repository>

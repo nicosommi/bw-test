@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.nicosommi.com/labs/test/xunit" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx2="http://www.nicosommi.com/labs/test/TESTTypes" xmlns:pfx="http://www.tibco.com/ns/no_namespace_schema_location/TEST/Resources/Schemas/xunit.xsd">
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:ns="http://www.nicosommi.com/labs/test/xunit" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx2="http://www.nicosommi.com/labs/test/TESTTypes" xmlns:pfx="http://www.tibco.com/ns/no_namespace_schema_location/TEST/Resources/Schemas/xunit.xsd">
     <xsd:import namespace="http://www.tibco.com/ns/no_namespace_schema_location/TEST/Resources/Schemas/xunit.xsd" schemaLocation="/TEST/Resources/Schemas/xunit.xsd"/>
     <xsd:import namespace="http://www.nicosommi.com/labs/test/TESTTypes" schemaLocation="/TEST/Resources/Schemas/TESTTypes.xsd"/>
     <pd:name>TEST/Core/TestExecutionProcess.process</pd:name>
@@ -20,24 +20,11 @@
         <pfx2:TestProcessOutput/>
     </pd:returnBindings>
     <pd:endName>End</pd:endName>
-    <pd:endType ref="pfx2:TestProcessOutput"/>
-    <pd:endX>612</pd:endX>
-    <pd:endY>115</pd:endY>
+    <pd:endX>614</pd:endX>
+    <pd:endY>110</pd:endY>
     <pd:errorSchemas/>
     <pd:processVariables/>
     <pd:targetNamespace>http://xmlns.example.com/1385039047701</pd:targetNamespace>
-    <pd:activity name="GetTests">
-        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
-        <pd:resourceType>ae.process.subprocess</pd:resourceType>
-        <pd:x>149</pd:x>
-        <pd:y>115</pd:y>
-        <config>
-            <processName>/TEST/Core/GetTests.process</processName>
-        </config>
-        <pd:inputBindings>
-            <root/>
-        </pd:inputBindings>
-    </pd:activity>
     <pd:group name="Group">
         <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
         <pd:resourceType>ae.process.group</pd:resourceType>
@@ -78,10 +65,11 @@
         <pd:activity name="TESTProcessor">
             <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
             <pd:resourceType>ae.process.subprocess</pd:resourceType>
-            <pd:x>310</pd:x>
-            <pd:y>96</pd:y>
+            <pd:x>325</pd:x>
+            <pd:y>92</pd:y>
             <config>
                 <processName>/TEST/Core/TestSuiteProcessor.process</processName>
+                <spawn>false</spawn>
             </config>
             <pd:inputBindings>
                 <root>
@@ -96,11 +84,23 @@
             </pd:inputBindings>
         </pd:activity>
     </pd:group>
+    <pd:activity name="GetTests">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>149</pd:x>
+        <pd:y>110</pd:y>
+        <config>
+            <processName>/TEST/Core/GetTests.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root/>
+        </pd:inputBindings>
+    </pd:activity>
     <pd:activity name="TestResultsSave">
         <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
         <pd:resourceType>ae.process.subprocess</pd:resourceType>
         <pd:x>491</pd:x>
-        <pd:y>112</pd:y>
+        <pd:y>110</pd:y>
         <config>
             <processName>/TEST/Core/TestResultsSave.process</processName>
         </config>

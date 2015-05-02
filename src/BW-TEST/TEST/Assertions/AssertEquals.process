@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:ns2="http://www.nicosommi.com/labs/test/xunit" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/EngineTypes" xmlns:ns0="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://www.nicosommi.com/labs/test/TESTTypes">
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.nicosommi.com/labs/test/xunit" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/EngineTypes" xmlns:ns0="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://www.nicosommi.com/labs/test/TESTTypes">
     <xsd:import namespace="http://www.nicosommi.com/labs/test/TESTTypes" schemaLocation="/TEST/Resources/Schemas/TESTTypes.xsd"/>
     <pd:name>TEST/Assertions/AssertEquals.process</pd:name>
     <pd:startName>Start</pd:startName>
@@ -19,8 +19,8 @@
             </xsd:complexType>
         </xsd:element>
     </pd:startType>
-    <pd:startX>27</pd:startX>
-    <pd:startY>96</pd:startY>
+    <pd:startX>30</pd:startX>
+    <pd:startY>103</pd:startY>
     <pd:returnBindings>
         <pfx:TestProcessOutput>
             <pfx:testcase>
@@ -40,9 +40,8 @@
         </pfx:TestProcessOutput>
     </pd:returnBindings>
     <pd:endName>End</pd:endName>
-    <pd:endType/>
-    <pd:endX>695</pd:endX>
-    <pd:endY>143</pd:endY>
+    <pd:endX>672</pd:endX>
+    <pd:endY>102</pd:endY>
     <pd:errorSchemas/>
     <pd:processVariables/>
     <pd:targetNamespace>http://xmlns.example.com/1379160540480</pd:targetNamespace>
@@ -102,8 +101,8 @@
         <pd:activity name="Generate Error">
             <pd:type>com.tibco.pe.core.GenerateErrorActivity</pd:type>
             <pd:resourceType>ae.activities.throw</pd:resourceType>
-            <pd:x>253</pd:x>
-            <pd:y>126</pd:y>
+            <pd:x>258</pd:x>
+            <pd:y>128</pd:y>
             <config>
                 <faultName/>
             </config>
