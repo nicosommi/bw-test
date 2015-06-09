@@ -1,8 +1,0 @@
-<?xml version = "1.0" encoding = "UTF-8"?>
-<testsuites xmlns = "http://www.nicosommi.com/labs/test/TESTTypes" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.nicosommi.com/labs/test/TESTTypes ../Schemas/TESTTypes.xsd" name="testexamples">
-	<testsuite name="testsuite1">
-		<testcase name="testcase1">
-			<handler>/TEST/Example/testParseParameters.process</handler>
-		</testcase>
-	</testsuite>
-</testsuites>
