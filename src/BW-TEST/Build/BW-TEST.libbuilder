@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Repository:repository xmlns:Repository="http://www.tibco.com/xmlns/repo/types/2002">
     <name name="BW-TEST">
-        <version>69</version>
+        <version>72</version>
         <author>sommi</author>
-        <fileLocation>/home/admin/workspace/BW-TEST/bin/BW-TEST.projlib</fileLocation>
-        <resources>/TEST/Assertions/AssertEquals.process,/TEST/Assertions/AssertGreaterThan.process,/TEST/Assertions/AssertGreaterThanOrEqual.process,/TEST/Assertions/AssertLessThan.process,/TEST/Assertions/AssertLessThanOrEqual.process,/TEST/Assertions/AssertNotEquals.process,/TEST/Assertions/Assertions.process,/TEST/Core/DummyProcess.process,/TEST/Misc/generateUUID.process,/TEST/Resources/Connections/TestServer.sharedhttp,/TEST/Resources/Custom functions/RegexMatch.javaxpath,/TEST/Resources/Data/tests.xml,/TEST/Resources/Schemas/TESTTypes.xsd,/TEST/Resources/Schemas/xunit.xsd,/TEST/Resources/Variables/testsVar.jobsharedvariable,/TEST/TestInit.process,/TEST/Tester.process</resources>
+        <fileLocation>/home/sogyo/ws-bw/bw-test-master/bin/BW-TEST.projlib</fileLocation>
+        <resources>/TEST/Assertions/AssertEquals.process,/TEST/Assertions/AssertGreaterThan.process,/TEST/Assertions/AssertGreaterThanOrEqual.process,/TEST/Assertions/AssertLessThan.process,/TEST/Assertions/AssertLessThanOrEqual.process,/TEST/Assertions/AssertNotEquals.process,/TEST/Assertions/Assertions.process,/TEST/Core/DummyProcess.process,/TEST/Misc/generateUUID.process,/TEST/Resources/Connections/TestServer.sharedhttp,/TEST/Resources/Custom functions/RegexMatch.javaxpath,/TEST/Resources/Schemas/TESTTypes.xsd,/TEST/Resources/Schemas/xunit.xsd,/TEST/TestInit.process,/TEST/Tester.process</resources>
     </name>
 </Repository:repository>

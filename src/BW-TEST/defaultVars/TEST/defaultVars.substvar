@@ -6,8 +6,8 @@
 			<value>5000</value>
 			<deploymentSettable>true</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
-			<type>Integer</type>
-			<modTime>1423657623997</modTime>
+			<type>String</type>
+			<modTime>1433844781805</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>allowOrigin</name>
@@ -42,12 +42,20 @@
 			<modTime>1385061544060</modTime>
 		</globalVariable>
 		<globalVariable>
-			<name>testPath</name>
-			<value>/TEST/Example/tests.xml</value>
+			<name>testSuiteFolderSuffix</name>
+			<value>Testsuite</value>
 			<deploymentSettable>true</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
 			<type>String</type>
-			<modTime>1420637042417</modTime>
+			<modTime>1433776845942</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>unitTestsLocation</name>
+			<value>/UnitTests</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1433423628072</modTime>
 		</globalVariable>
 	</globalVariables>
 </repository>

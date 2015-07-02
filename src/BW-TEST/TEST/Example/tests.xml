@@ -1,8 +1,0 @@
-<?xml version = "1.0" encoding = "UTF-8"?>
-<bwt:testsuites name = "testexamples" xmlns:bwt = "http://www.nicosommi.com/labs/test/TESTTypes" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.nicosommi.com/labs/test/TESTTypes /TEST/Resources/Schemas/TESTTypes.xsd">
-	<bwt:testsuite name = "EXAMPLE Test Suite">
-		<bwt:testcase name = "EXAMPLE Unit test">
-			<bwt:handler>/TEST/Example/testExample.process</bwt:handler>
-		</bwt:testcase>
-	</bwt:testsuite>
-</bwt:testsuites>

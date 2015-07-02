@@ -1,39 +1,298 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:regex="java://com.hp.labs.tibco.bw.regex.RegexMatch" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://www.nicosommi.com/labs/test/TESTTypes">
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:regex="java://com.hp.labs.tibco.bw.regex.RegexMatch" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://www.nicosommi.com/labs/test/TESTTypes">
     <xsd:import namespace="http://www.nicosommi.com/labs/test/TESTTypes" schemaLocation="/TEST/Resources/Schemas/TESTTypes.xsd"/>
     <pd:name>TEST/Core/GetTests.process</pd:name>
     <pd:startName>Start</pd:startName>
     <pd:startX>91</pd:startX>
-    <pd:startY>100</pd:startY>
+    <pd:startY>104</pd:startY>
     <pd:returnBindings>
-        <xsl:copy-of select="$GetVariable/pfx:testsuites"/>
+        <pfx:testsuites>
+            <xsl:attribute name="name">
+                <xsl:value-of select="&quot;BW UnitTests&quot;"/>
+            </xsl:attribute>
+            <xsl:if test="count($List-separate-tests/ns:ListFilesActivityOutput/files/fileInfo) !=0">
+                <pfx:testsuite>
+                    <xsl:attribute name="name">
+                        <xsl:value-of select="&quot;Undefined Testsuite&quot;"/>
+                    </xsl:attribute>
+                    <xsl:for-each select="$List-separate-tests/ns:ListFilesActivityOutput/files/fileInfo">
+                        <pfx:testcase>
+                            <xsl:attribute name="name">
+                                <xsl:value-of select="substring-before(fileName, &quot;.process&quot;)"/>
+                            </xsl:attribute>
+                            <pfx:handler>
+                                <xsl:value-of select="concat($_globalVariables/ns1:GlobalVariables/TEST/unitTestsLocation, &quot;/&quot; ,fileName)"/>
+                            </pfx:handler>
+                        </pfx:testcase>
+                    </xsl:for-each>
+                </pfx:testsuite>
+            </xsl:if>
+            <xsl:for-each select="$alltests/AccumulatedOutput/testSuite">
+                <pfx:testsuite>
+                    <xsl:attribute name="name">
+                        <xsl:value-of select="name"/>
+                    </xsl:attribute>
+                    <xsl:for-each select="unitTest">
+                        <pfx:testcase>
+                            <xsl:attribute name="name">
+                                <xsl:value-of select="name"/>
+                            </xsl:attribute>
+                            <pfx:handler>
+                                <xsl:value-of select="path"/>
+                            </pfx:handler>
+                        </pfx:testcase>
+                    </xsl:for-each>
+                </pfx:testsuite>
+            </xsl:for-each>
+        </pfx:testsuites>
     </pd:returnBindings>
     <pd:endName>End</pd:endName>
     <pd:endType ref="pfx:testsuites"/>
-    <pd:endX>468</pd:endX>
-    <pd:endY>100</pd:endY>
+    <pd:endX>910</pd:endX>
+    <pd:endY>107</pd:endY>
     <pd:errorSchemas/>
     <pd:processVariables/>
     <pd:targetNamespace>http://xmlns.example.com/1376336806952</pd:targetNamespace>
-    <pd:activity name="GetVariable">
-        <pd:type>com.tibco.pe.core.GetSharedVariableActivity</pd:type>
-        <pd:resourceType>ae.activities.getSharedVariable</pd:resourceType>
-        <pd:x>265</pd:x>
-        <pd:y>100</pd:y>
+    <pd:group name="Group">
+        <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
+        <pd:resourceType>ae.process.group</pd:resourceType>
+        <pd:x>499</pd:x>
+        <pd:y>6</pd:y>
+        <pd:width>328</pd:width>
+        <pd:height>182</pd:height>
+        <pd:collapsedWidth>57</pd:collapsedWidth>
+        <pd:collapsedHeight>70</pd:collapsedHeight>
+        <pd:groupVariables/>
+        <pd:joinToggle>inherit</pd:joinToggle>
         <config>
-            <variableConfig>/TEST/Resources/Variables/testsVar.jobsharedvariable</variableConfig>
+            <pd:groupType>inputLoop</pd:groupType>
+            <pd:serializable>false</pd:serializable>
+            <pd:over>$List-Testsuites/ns:ListFilesActivityOutput/files/fileInfo</pd:over>
+            <pd:iterationElementSlot>testsuite</pd:iterationElementSlot>
+            <pd:indexSlot>i</pd:indexSlot>
+            <pd:outSlot>alltests</pd:outSlot>
+            <pd:activityOutputName>Group tests per testsuite</pd:activityOutputName>
+            <pd:accumulateOutput>true</pd:accumulateOutput>
         </config>
         <pd:inputBindings/>
+        <pd:expanded>true</pd:expanded>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>List tests per suite</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Group tests per testsuite</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>List tests per suite</pd:from>
+            <pd:to>Group tests per testsuite</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:activity name="List tests per suite">
+            <pd:type>com.tibco.plugin.file.ListFilesActivity</pd:type>
+            <pd:resourceType>ae.activities.ListFilesActivity</pd:resourceType>
+            <pd:x>597</pd:x>
+            <pd:y>81</pd:y>
+            <config>
+                <mode>only-files</mode>
+            </config>
+            <pd:inputBindings>
+                <ns:ListFilesActivityConfig>
+                    <fileName>
+                        <xsl:value-of select="concat($Get-Absolute-Path-of-Unit-tests-folder/javaCodeActivityOutput/absolutePath, &quot;/&quot;, $testsuite/fileInfo/fileName, &quot;/*.process&quot;)"/>
+                    </fileName>
+                </ns:ListFilesActivityConfig>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Group tests per testsuite">
+            <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+            <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+            <pd:x>720</pd:x>
+            <pd:y>80</pd:y>
+            <config>
+                <element>
+                    <xsd:element name="testSuite">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="name" type="xsd:string"/>
+                                <xsd:element name="unitTest" minOccurs="0" maxOccurs="unbounded">
+                                    <xsd:complexType>
+                                        <xsd:sequence>
+                                            <xsd:element name="name" type="xsd:string"/>
+                                            <xsd:element name="path" type="xsd:string"/>
+                                        </xsd:sequence>
+                                    </xsd:complexType>
+                                </xsd:element>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </element>
+            </config>
+            <pd:inputBindings>
+                <testSuite>
+                    <name>
+                        <xsl:value-of select="$testsuite/fileInfo/fileName"/>
+                    </name>
+                    <xsl:for-each select="$List-tests-per-suite/ns:ListFilesActivityOutput/files/fileInfo">
+                        <unitTest>
+                            <name>
+                                <xsl:value-of select="substring-before(fileName, &quot;.process&quot;)"/>
+                            </name>
+                            <path>
+                                <xsl:value-of select="concat($_globalVariables/ns1:GlobalVariables/TEST/unitTestsLocation, &quot;/&quot;, $testsuite/fileInfo/fileName, &quot;/&quot;, fileName)"/>
+                            </path>
+                        </unitTest>
+                    </xsl:for-each>
+                </testSuite>
+            </pd:inputBindings>
+        </pd:activity>
+    </pd:group>
+    <pd:activity name="Get Absolute Path of Unit tests folder">
+        <pd:type>com.tibco.plugin.java.JavaActivity</pd:type>
+        <pd:resourceType>ae.javapalette.javaActivity</pd:resourceType>
+        <pd:x>239</pd:x>
+        <pd:y>119</pd:y>
+        <config>
+            <fileName>GetTestsGetAbsolutePathofUnittestsfolder</fileName>
+            <packageName>TEST.Core.GetTests</packageName>
+            <fullsource>package TEST.Core.GetTests;
+import java.util.*;
+import java.io.*;
+public class GetTestsGetAbsolutePathofUnittestsfolder{
+/****** START SET/GET METHOD, DO NOT MODIFY *****/
+	protected String relativePath = "";
+	protected String absolutePath = "";
+	public String getrelativePath() {
+		return relativePath;
+	}
+	public void setrelativePath(String val) {
+		relativePath = val;
+	}
+	public String getabsolutePath() {
+		return absolutePath;
+	}
+	public void setabsolutePath(String val) {
+		absolutePath = val;
+	}
+/****** END SET/GET METHOD, DO NOT MODIFY *****/
+	public GetTestsGetAbsolutePathofUnittestsfolder() {
+	}
+	public void invoke() throws Exception {
+/* Available Variables: DO NOT MODIFY
+	In  : String relativePath
+	Out : String absolutePath
+* Available Variables: DO NOT MODIFY *****/
+
+absolutePath = com.tibco.pe.core.Engine.getRepoAgent().getAbsoluteURIFromProjectRelativeURI(relativePath);}
+}
+</fullsource>
+            <inputData>
+                <row>
+                    <fieldName>relativePath</fieldName>
+                    <fieldType>string</fieldType>
+                    <fieldRequired>required</fieldRequired>
+                </row>
+            </inputData>
+            <outputData>
+                <row>
+                    <fieldName>absolutePath</fieldName>
+                    <fieldType>string</fieldType>
+                    <fieldRequired>required</fieldRequired>
+                </row>
+            </outputData>
+            <byteCode>
+                <class>
+                    <name>GetTestsGetAbsolutePathofUnittestsfolder</name>
+                    <byteCode>yv66vgAAADMALAkABwAbCQAHABwKAAgAHQgAHgoAHwAgCwAhACIHACMHACQBAAxyZWxhdGl2ZVBhdGgBABJMamF2YS9sYW5nL1N0cmluZzsBAAxhYnNvbHV0ZVBhdGgBAA9nZXRyZWxhdGl2ZVBhdGgBABQoKUxqYXZhL2xhbmcvU3RyaW5nOwEABENvZGUBAA9MaW5lTnVtYmVyVGFibGUBAA9zZXRyZWxhdGl2ZVBhdGgBABUoTGphdmEvbGFuZy9TdHJpbmc7KVYBAA9nZXRhYnNvbHV0ZVBhdGgBAA9zZXRhYnNvbHV0ZVBhdGgBAAY8aW5pdD4BAAMoKVYBAAZpbnZva2UBAApFeGNlcHRpb25zBwAlAQAKU291cmNlRmlsZQEALUdldFRlc3RzR2V0QWJzb2x1dGVQYXRob2ZVbml0dGVzdHNmb2xkZXIuamF2YQwACQAKDAALAAoMABQAFQEAAAcAJgwAJwAoBwApDAAqACsBADtURVNUL0NvcmUvR2V0VGVzdHMvR2V0VGVzdHNHZXRBYnNvbHV0ZVBhdGhvZlVuaXR0ZXN0c2ZvbGRlcgEAEGphdmEvbGFuZy9PYmplY3QBABNqYXZhL2xhbmcvRXhjZXB0aW9uAQAYY29tL3RpYmNvL3BlL2NvcmUvRW5naW5lAQAMZ2V0UmVwb0FnZW50AQAgKClMY29tL3RpYmNvL2J3L3N0b3JlL1JlcG9BZ2VudDsBABxjb20vdGliY28vYncvc3RvcmUvUmVwb0FnZW50AQAkZ2V0QWJzb2x1dGVVUklGcm9tUHJvamVjdFJlbGF0aXZlVVJJAQAmKExqYXZhL2xhbmcvU3RyaW5nOylMamF2YS9sYW5nL1N0cmluZzsAIQAHAAgAAAACAAQACQAKAAAABAALAAoAAAAGAAEADAANAAEADgAAAB0AAQABAAAABSq0AAGwAAAAAQAPAAAABgABAAAACQABABAAEQABAA4AAAAiAAIAAgAAAAYqK7UAAbEAAAABAA8AAAAKAAIAAAAMAAUADQABABIADQABAA4AAAAdAAEAAQAAAAUqtAACsAAAAAEADwAAAAYAAQAAAA8AAQATABEAAQAOAAAAIgACAAIAAAAGKiu1AAKxAAAAAQAPAAAACgACAAAAEgAFABMAAQAUABUAAQAOAAAANQACAAEAAAARKrcAAyoSBLUAASoSBLUAArEAAAABAA8AAAASAAQAAAAVAAQABgAKAAcAEAAWAAEAFgAVAAIADgAAACkAAwABAAAAESq4AAUqtAABuQAGAgC1AAKxAAAAAQAPAAAABgABAAAAHQAXAAAABAABABgAAQAZAAAAAgAa</byteCode>
+                </class>
+            </byteCode>
+        </config>
+        <pd:inputBindings>
+            <javaCodeActivityInput>
+                <relativePath>
+                    <xsl:value-of select="$_globalVariables/ns1:GlobalVariables/TEST/unitTestsLocation"/>
+                </relativePath>
+            </javaCodeActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="List separate tests">
+        <pd:type>com.tibco.plugin.file.ListFilesActivity</pd:type>
+        <pd:resourceType>ae.activities.ListFilesActivity</pd:resourceType>
+        <pd:x>240</pd:x>
+        <pd:y>285</pd:y>
+        <config>
+            <mode>only-files</mode>
+        </config>
+        <pd:inputBindings>
+            <ns:ListFilesActivityConfig>
+                <fileName>
+                    <xsl:value-of select="concat($Get-Absolute-Path-of-Unit-tests-folder/javaCodeActivityOutput/absolutePath, &quot;/*.process&quot;)"/>
+                </fileName>
+            </ns:ListFilesActivityConfig>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="List Testsuites">
+        <pd:type>com.tibco.plugin.file.ListFilesActivity</pd:type>
+        <pd:resourceType>ae.activities.ListFilesActivity</pd:resourceType>
+        <pd:x>400</pd:x>
+        <pd:y>104</pd:y>
+        <config>
+            <mode>only-directories</mode>
+        </config>
+        <pd:inputBindings>
+            <ns:ListFilesActivityConfig>
+                <fileName>
+                    <xsl:value-of select="concat($Get-Absolute-Path-of-Unit-tests-folder/javaCodeActivityOutput/absolutePath, &quot;/*&quot;, $_globalVariables/ns1:GlobalVariables/TEST/testSuiteFolderSuffix)"/>
+                </fileName>
+            </ns:ListFilesActivityConfig>
+        </pd:inputBindings>
     </pd:activity>
     <pd:transition>
-        <pd:from>Start</pd:from>
-        <pd:to>GetVariable</pd:to>
+        <pd:from>Get Absolute Path of Unit tests folder</pd:from>
+        <pd:to>List Testsuites</pd:to>
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
         <pd:conditionType>always</pd:conditionType>
     </pd:transition>
     <pd:transition>
-        <pd:from>GetVariable</pd:from>
+        <pd:from>Start</pd:from>
+        <pd:to>Get Absolute Path of Unit tests folder</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Get Absolute Path of Unit tests folder</pd:from>
+        <pd:to>List separate tests</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>List separate tests</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>One Bend</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>List Testsuites</pd:from>
+        <pd:to>Group</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Group</pd:from>
         <pd:to>End</pd:to>
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
